@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <script type="text/javascript" src="WebsiteScript.js"></script>
+        <style>
+
+            .title {
+                display: block;
+                text-align: center;
+                clear: both;
+                color: #04AA6D;
+                font-size: 45px; 
+                font-family: "COPPERPLATE";
+            }
+
+            .block {
+            display: block;
+            height: 275px;
+            width: 550px;
+            float: left;
+            border: none;
+            background-color: #04AA6D;
+            color: white;
+            padding: 14px 28px;
+            font-size:40px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            font-family: COPPERPLATE;
+            }
+
+            .block:hover {
+            background-color: #04d186;
+            color: black;
+            }
+
+            .invis {
+                display: none;
+            }
+
+            .sblock {
+                display: block;
+                background-color: #04AA6D; /* Green background */
+                border: none; /* Green border */
+                color: white; /* White text */
+                padding: 0px; /* No padding */
+                font-size: 55px;
+                cursor: pointer; /* Pointer/hand icon */
+                float: left; /* Float the buttons side by side */
+                border-radius: 20px;
+            }
+
+            .sblock:hover {
+                background-color: #04d186;
+                color: black;
+            }
+
+            .NBut {
+                background-color: #04AA6D;
+                border: none;
+                border-radius: 20px;
+                color: white;
+                padding: 14px 28px;
+                cursor: pointer;
+                font-size: 55px;
+            }
+
+            #inputLNum, #inputRNum {
+                position: absolute;
+                height: 83px;
+                width: 400px;
+                font-size: 55px;
+                border: 4px solid #04AA6D;
+                border-radius: 20px;
+            }
+
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+            .Unit {
+                position: absolute;
+                width: 400px;
+                height: 336px;
+                overflow-y: auto;
+                font-size: 30px;
+                border: 4px solid #04AA6D;
+                border-radius: 10px;
+                color: white;
+                background-color: #04AA6D;
+                padding: 4px 10px 1px 10px;
+            }
+
+            .Unit::-webkit-scrollbar-thumb {
+                border-radius: 8px;
+                border: 2px solid #04AA6D; /* should match background, can't be transparent */
+                background-color: white;
+            }
+
+            .Unit::-webkit-scrollbar {
+                -webkit-appearance: none;
+            }
+        
+        </style>
+        <button id="SecBBut" onclick="Hide_All(); Secondary_Screen('invis'); Clear_Screen('block'); Title_Adjust('title');" class="invis">&#9664</button>
+        <h1 id="Title" class="title">Unit Conversion System</h1>
+    </head>
+    <body>
+        
+        <!--                                     Initial Screen                                  -->
+        <button id="ABut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_A(); A_Check();" class="block">Area</button>
+        <button id="CBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_C(); C_Check();" class="block">Currency</button>
+        <button id="DBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_D(); D_Check();" class="block">Data</button>
+        <button id="LBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_L(); L_Check();" class="block">Length</button>
+        <button id="SBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_S(); S_Check();" class="block">Speed</button>
+        <button id="TeBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_Te(); Te_Check();" class="block">Temperature</button>
+        <button id="TiBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_Ti(); Ti_Check();" class="block">Time</button>
+        <button id="VBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_V(); V_Check();" class="block">Volume</button>
+        <button id="WBut" onclick="Clear_Screen('invis'); Secondary_Screen('sblock'); Title_Adjust('invis'); Button_Attribute_Editing(); Reveal_Page_Attributes(); Reveal_Options_W(); W_Check();" class="block">Weight</button>
+
+        <!--                                       Secondary Screen                              -->
+
+        <button id="SecLUnitBut" class="invis">Unit1</button>
+        <button id="Sec=But" class="invis">=</button>
+        <button id="SecRUnitBut" class="invis">Unit2</button>
+        
+        <input id="inputLNum" type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1').replace(/^0[^.]/, '0'); ON_Change(this.value)" onchange="ON_Change(this.value)" class="invis">
+        <input id="inputRNum" class="invis" disabled>
+        
+        <form id="LForm" action="#">
+            <select name="UnitA" id="UnitA" size="20" class="invis">
+                <Option id="Are" value='Are' selected>Are</Option>
+                <Option id="Acre" value='Acre'>Acre</Option>
+                <Option id="Hectare" value='Hectare'>Hectare</Option>
+                <Option id="Square Centimetre" value='Square Centimetre'>Square Centimetre</Option>
+                <Option id="Square Decimetre" value='Square Decimetre'>Square Decimetre</Option>
+                <Option id="Square Feet" value='Square Feet'>Square Feet</Option>
+                <Option id="Square Inch" value='Square Inch'>Square Inch</Option>
+                <Option id="Square Kilometre" value='Square Kilometre'>Square Kilometre</Option>
+                <Option id="Square Metre" value='Square Metre'>Square Metre</Option>
+                <Option id="Square Mile" value='Square Mile'>Square Mile</Option>
+                <Option id="Square Millimetre" value='Square Millimetre'>Square Millimetre</Option>
+                <Option id="Square Yard" value='Square Yard'>Square Yard</Option>
+            </select>
+            <select name="UnitC" id="UnitC" size="20" class="invis">
+                <Option id="BTC" value='BTC' selected>Bitcoin</Option>
+                <Option id="KWD" value='KWD'>Kuwaiti Dinar</Option>
+                <Option id="AED" value='AED'>United Arab Emirates Dirham</Option>
+                <Option id="AUD" value='AUD'>Austrailian Dollar</Option>
+                <Option id="CAD" value='CAD'>Canadian Dollar</Option>
+                <Option id="HKD" value='HKD'>Hong Kong Dollar</Option>
+                <Option id="USD" value='USD'>United States Dollar</Option>
+                <Option id="EUR" value='EUR'>Euro</Option>
+                <Option id="CHF" value='CHF'>Swiss Franc</Option>
+                <Option id="COP" value='COP'>Colombian Peso</Option>
+                <Option id="GBP" value='GBP'>Pound Sterling</Option>
+                <Option id="RUB" value='RUB'>Russian Rouble</Option>
+                <Option id="INR" value='INR'>Indian Rupee</Option>
+                <Option id="PKR" value='PKR'>Pakistani Rupee</Option>
+                <Option id="LKR" value='LKR'>Sri Lankan Rupee</Option>
+                <Option id="JPY" value='JPY'>Japanese Yen</Option>
+                <Option id="CNY" value='CNY'>Chinese Yuan</Option>
+            </select>
+            <select name="UnitD" id="UnitD" size="20" class="invis">
+                <Option id="Bit" value='Bit' selected>Bit</Option>
+                <Option id="Byte" value='Byte'>Byte</Option>
+                <Option id="Kilobyte" value='Kilobyte'>Kilobyte</Option>
+                <Option id="Megabyte" value='Megabyte'>Megabyte</Option>
+                <Option id="Gigabyte" value='Gigabyte'>Gigabyte</Option>
+                <Option id="Terabyte" value='Terabyte'>Terabyte</Option>
+                <Option id="Petabyte" value='Petabyte'>Petabyte</Option>
+                <Option id="Exabyte" value='Exabyte'>Exabyte</Option>
+            </select>
+            <select name="UnitL" id="UnitL" size="20" class="invis">
+                <Option id="Centimetre" value='Centimetre' selected>Centimetre</Option>
+                <Option id="Chain" value='Chain'>Chain</Option>
+                <Option id="Decimetre" value='Decimetre'>Decimetre</Option>
+                <Option id="Feet" value='Feet'>Feet</Option>
+                <Option id="Furlong" value='Furlong'>Furlong</Option>
+                <Option id="Inch" value='Inch'>Inch</Option>
+                <Option id="Kilometre" value='Kilometre'>Kilometre</Option>
+                <Option id="League" value='League'>League</Option>
+                <Option id="Metre" value='Metre'>Metre</Option>
+                <Option id="Mile" value='Mile'>Mile</Option>
+                <Option id="Millimetre" value='Millimetre'>Millimetre</Option>
+                <Option id="Nautical Mile" value='Nautical Mile'>Nautical Mile</Option>
+                <Option id="Rod" value='Rod'>Rod</Option>
+                <Option id="Yard" value='Yard'>Yard</Option>
+            </select>
+            <select name="UnitS" id="UnitS" size="20" class="invis">
+                <Option id="Feet/Minute" value='Feet/Minute' selected>Feet/Minute</Option>
+                <Option id="Feet/Second" value='Feet/Second'>Feet/Second</Option>
+                <Option id="Kilometre/Hour" value='Kilometre/Hour'>Kilometre/Hour</Option>
+                <Option id="Knot" value='Knot'>Knot</Option>
+                <Option id="Mach" value='Mach'>Mach</Option>
+                <Option id="Metre/Second" value='Metre/Second'>Metre/Second</Option>
+                <Option id="Mile/Hour" value='Mile/Hour'>Mile/Hour</Option>
+                <Option id="Speed of Light" value='Speed of Light'>Speed of Light</Option>
+            </select>
+            <select name="UnitTe" id="UnitTe" size="20" class="invis">
+                <Option id="Celsius" value='Celsius' selected>Celsius</Option>
+                <Option id="Fahrenheit" value='Fahrenheit'>Fahrenheit</Option>
+                <Option id="Kelvin" value='Kelvin'>Kelvin</Option>
+                <Option id="Rankine" value='Rankine'>Rankine</Option>
+            </select>
+            <select name="UnitTi" id="UnitTi" size="20" class="invis">
+                <Option id="Century" value='Century' selected>Century</Option>
+                <Option id="Day" value='Day'>Day</Option>
+                <Option id="Decade" value='Decade'>Decade</Option>
+                <Option id="Hour" value='Hour'>Hour</Option>
+                <Option id="Millennium" value='Millennium'>Millennium</Option>
+                <Option id="Millisecond" value='Millisecond'>Millisecond</Option>
+                <Option id="Month" value='Month'>Month</Option>
+                <Option id="Second" value='Second'>Second</Option>
+                <Option id="Week" value='Week'>Week</Option>
+                <Option id="Year" value='Year'>Year</Option>
+            </select>
+            <select name="UnitV" id="UnitV" size="20" class="invis">
+                <Option id="Centilitre" value='Centilitre' selected>Centilitre</Option>
+                <Option id="Cubic Centimetre" value='Cubic Centimetre'>Cubic Centimetre</Option>
+                <Option id="Cubic Feet" value='Cubic Feet'>Cubic Feet</Option>
+                <Option id="Cubic Inch" value='Cubic Inch'>Cubic Inch</Option>
+                <Option id="Cubic Metre" value='Cubic Metre'>Cubic Metre</Option>
+                <Option id="Cubic Millimetre" value='Cubic Millimetre'>Cubic Millimetre</Option>
+                <Option id="Cubic Yard" value='Cubic Yard'>Cubic Yard</Option>
+                <Option id="Decilitre" value='Decilitre'>Decilitre</Option>
+                <Option id="Fluid Ounce UK" value='Fluid Ounce UK'>Fluid Ounce UK</Option>
+                <Option id="Fluid Ounce US" value='Fluid Ounce US'>Fluid Ounce US</Option>
+                <Option id="Gallon UK" value='Gallon UK'>Gallon UK</Option>
+                <Option id="Gallon US" value='Gallon US'>Gallon US</Option>
+                <Option id="Litre" value='Litre'>Litre</Option>
+                <Option id="Millilitre" value='Millilitre'>Millilitre</Option>
+                <Option id="Pint UK" value='Pint UK'>Pint UK</Option>
+                <Option id="Pint US" value='Pint US'>Pint US</Option>
+                <Option id="Tablespoon" value='Tablespoon'>Tablespoon</Option>
+                <Option id="Teaspoon" value='Teaspoon'>Teaspoon</Option>
+            </select>
+            <select name="UnitW" id="UnitW" size="20" class="invis">
+                <Option id="Carat" value='Carat' selected>Carat</Option>
+                <Option id="Gram" value='Gram'>Gram</Option>
+                <Option id="Kilogram" value='Kilogram'>Kilogram</Option>
+                <Option id="Milligram" value='Milligram'>Milligram</Option>
+                <Option id="Ounce" value='Ounce'>Ounce</Option>
+                <Option id="Pound" value='Pound'>Pound</Option>
+                <Option id="Stone" value='Stone'>Stone</Option>
+                <Option id="Ton" value='Ton'>Ton</Option>
+            </select>
+        </form>
+        
+        <input id="SecC1" type="button" onclick="Change_Buttons_Unit()" value="Change" class="invis">
+        
+        <form id="RForm" action="#">
+            <select name="UnitA2" id="UnitA2" size="20" class="invis">
+                <Option id="Are2" value='Are'>Are</Option>
+                <Option id="Acre2" value='Acre' selected>Acre</Option>
+                <Option id="Hectare2" value='Hectare'>Hectare</Option>
+                <Option id="Square Centimetre2" value='Square Centimetre'>Square Centimetre</Option>
+                <Option id="Square Decimetre2" value='Square Decimetre'>Square Decimetre</Option>
+                <Option id="Square Feet2" value='Square Feet'>Square Feet</Option>
+                <Option id="Square Inch2" value='Square Inch'>Square Inch</Option>
+                <Option id="Square Kilometre2" value='Square Kilometre'>Square Kilometre</Option>
+                <Option id="Square Metre2" value='Square Metre'>Square Metre</Option>
+                <Option id="Square Mile2" value='Square Mile'>Square Mile</Option>
+                <Option id="Square Millimetre2" value='Square Millimetre'>Square Millimetre</Option>
+                <Option id="Square Yard2" value='Square Yard'>Square Yard</Option>
+            </select>
+            <select name="UnitC2" id="UnitC2" size="20" class="invis">
+                <Option id="BTC2" value='BTC'>Bitcoin</Option>
+                <Option id="KWD2" value='KWD' selected>Kuwaiti Dinar</Option>
+                <Option id="AED2" value='AED'>United Arab Emirates Dirham</Option>
+                <Option id="AUD2" value='AUD'>Austrailian Dollar</Option>
+                <Option id="CAD2" value='CAD'>Canadian Dollar</Option>
+                <Option id="HKD2" value='HKD'>Hong Kong Dollar</Option>
+                <Option id="USD2" value='USD'>United States Dollar</Option>
+                <Option id="EUR2" value='EUR'>Euro</Option>
+                <Option id="CHF2" value='CHF'>Swiss Franc</Option>
+                <Option id="COP2" value='COP'>Colombian Peso</Option>
+                <Option id="GBP2" value='GBP'>Pound Sterling</Option>
+                <Option id="RUB2" value='RUB'>Russian Rouble</Option>
+                <Option id="INR2" value='INR'>Indian Rupee</Option>
+                <Option id="PKR2" value='PKR'>Pakistani Rupee</Option>
+                <Option id="LKR2" value='LKR'>Sri Lankan Rupee</Option>
+                <Option id="JPY2" value='JPY'>Japanese Yen</Option>
+                <Option id="CNY2" value='CNY'>Chinese Yuan</Option>
+            </select>
+            <select name="UnitD2" id="UnitD2" size="20" class="invis">
+                <Option id="Bit2" value='Bit'>Bit</Option>
+                <Option id="Byte2" value='Byte' selected>Byte</Option>
+                <Option id="Kilobyte2" value='Kilobyte'>Kilobyte</Option>
+                <Option id="Megabyte2" value='Megabyte'>Megabyte</Option>
+                <Option id="Gigabyte2" value='Gigabyte'>Gigabyte</Option>
+                <Option id="Terabyte2" value='Terabyte'>Terabyte</Option>
+                <Option id="Petabyte2" value='Petabyte'>Petabyte</Option>
+                <Option id="Exabyte2" value='Exabyte'>Exabyte</Option>
+            </select>
+            <select name="UnitL2" id="UnitL2" size="20" class="invis">
+                <Option id="Centimetre2" value='Centimetre'>Centimetre</Option>
+                <Option id="Chain2" value='Chain' selected>Chain</Option>
+                <Option id="Decimetre2" value='Decimetre'>Decimetre</Option>
+                <Option id="Feet2" value='Feet'>Feet</Option>
+                <Option id="Furlong2" value='Furlong'>Furlong</Option>
+                <Option id="Inch2" value='Inch'>Inch</Option>
+                <Option id="Kilometre2" value='Kilometre'>Kilometre</Option>
+                <Option id="League2" value='League'>League</Option>
+                <Option id="Metre2" value='Metre'>Metre</Option>
+                <Option id="Mile2" value='Mile'>Mile</Option>
+                <Option id="Millimetre2" value='Millimetre'>Millimetre</Option>
+                <Option id="Nautical Mile2" value='Nautical Mile'>Nautical Mile</Option>
+                <Option id="Rod2" value='Rod'>Rod</Option>
+                <Option id="Yard2" value='Yard'>Yard</Option>
+            </select>
+            <select name="UnitS2" id="UnitS2" size="20" class="invis">
+                <Option id="Feet/Minute2" value='Feet/Minute'>Feet/Minute</Option>
+                <Option id="Feet/Second2" value='Feet/Second' selected>Feet/Second</Option>
+                <Option id="Kilometre/Hour2" value='Kilometre/Hour'>Kilometre/Hour</Option>
+                <Option id="Knot2" value='Knot'>Knot</Option>
+                <Option id="Mach2" value='Mach'>Mach</Option>
+                <Option id="Metre/Second2" value='Metre/Second'>Metre/Second</Option>
+                <Option id="Mile/Hour2" value='Mile/Hour'>Mile/Hour</Option>
+                <Option id="Speed of Light2" value='Speed of Light'>Speed of Light</Option>
+            </select>
+            <select name="UnitTe2" id="UnitTe2" size="20" class="invis">
+                <Option id="Celsius" value='Celsius'>Celsius</Option>
+                <Option id="Fahrenheit" value='Fahrenheit' selected>Fahrenheit</Option>
+                <Option id="Kelvin" value='Kelvin'>Kelvin</Option>
+                <Option id="Rankine" value='Rankine'>Rankine</Option>
+            </select>
+            <select name="UnitTi2" id="UnitTi2" size="20" class="invis">
+                <Option id="Century" value='Century'>Century</Option>
+                <Option id="Day" value='Day' selected>Day</Option>
+                <Option id="Decade" value='Decade'>Decade</Option>
+                <Option id="Hour" value='Hour'>Hour</Option>
+                <Option id="Millennium" value='Millennium'>Millennium</Option>
+                <Option id="Millisecond" value='Millisecond'>Millisecond</Option>
+                <Option id="Month" value='Month'>Month</Option>
+                <Option id="Second" value='Second'>Second</Option>
+                <Option id="Week" value='Week'>Week</Option>
+                <Option id="Year" value='Year'>Year</Option>
+            </select>
+            <select name="UnitV2" id="UnitV2" size="20" class="invis">
+                <Option id="Centilitre" value='Centilitre'>Centilitre</Option>
+                <Option id="Cubic Centimetre" value='Cubic Centimetre' selected>Cubic Centimetre</Option>
+                <Option id="Cubic Feet" value='Cubic Feet'>Cubic Feet</Option>
+                <Option id="Cubic Inch" value='Cubic Inch'>Cubic Inch</Option>
+                <Option id="Cubic Metre" value='Cubic Metre'>Cubic Metre</Option>
+                <Option id="Cubic Millimetre" value='Cubic Millimetre'>Cubic Millimetre</Option>
+                <Option id="Cubic Yard" value='Cubic Yard'>Cubic Yard</Option>
+                <Option id="Decilitre" value='Decilitre'>Decilitre</Option>
+                <Option id="Fluid Ounce UK" value='Fluid Ounce UK'>Fluid Ounce UK</Option>
+                <Option id="Fluid Ounce US" value='Fluid Ounce US'>Fluid Ounce US</Option>
+                <Option id="Gallon UK" value='Gallon UK'>Gallon UK</Option>
+                <Option id="Gallon US" value='Gallon US'>Gallon US</Option>
+                <Option id="Litre" value='Litre'>Litre</Option>
+                <Option id="Millilitre" value='Millilitre'>Millilitre</Option>
+                <Option id="Pint UK" value='Pint UK'>Pint UK</Option>
+                <Option id="Pint US" value='Pint US'>Pint US</Option>
+                <Option id="Tablespoon" value='Tablespoon'>Tablespoon</Option>
+                <Option id="Teaspoon" value='Teaspoon'>Teaspoon</Option>
+            </select>
+            <select name="UnitW2" id="UnitW2" size="20" class="invis">
+                <Option id="Carat" value='Carat'>Carat</Option>
+                <Option id="Gram" value='Gram' selected>Gram</Option>
+                <Option id="Kilogram" value='Kilogram'>Kilogram</Option>
+                <Option id="Milligram" value='Milligram'>Milligram</Option>
+                <Option id="Ounce" value='Ounce'>Ounce</Option>
+                <Option id="Pound" value='Pound'>Pound</Option>
+                <Option id="Stone" value='Stone'>Stone</Option>
+                <Option id="Ton" value='Ton'>Ton</Option>
+            </select>
+        </form>
+        
+        <input id="SecC2" type="button" onclick="Change_Buttons_Unit2()" value="Change" class="invis">
+        
+        <button id="7But" onclick="But_7()" class="invis">7</button>
+        <button id="8But" onclick="But_8()" class="invis">8</button>
+        <button id="9But" onclick="But_9()" class="invis">9</button>
+        <button id="DelBut" onclick="But_Del()" class="invis">&#10096&#10096</button>
+        <button id="4But" onclick="But_4()" class="invis">4</button>
+        <button id="5But" onclick="But_5()" class="invis">5</button>
+        <button id="6But" onclick="But_6()" class="invis">6</button>
+        <button id="ACBut" onclick="But_AC()" class="invis">AC</button>
+        <button id="1But" onclick="But_1()" class="invis">1</button>
+        <button id="2But" onclick="But_2()" class="invis">2</button>
+        <button id="3But" onclick="But_3()" class="invis">3</button>
+        <button id="PMBut" onclick="But_PM()" class="invis">+/-</button>
+        <button id="SWBut" onclick="But_Swap()" class="invis">&#8646</button>
+        <button id="DPBut" onclick="But_DP()" class="invis">.</button>
+        <button id="0But" onclick="But_0()" class="invis">0</button>
+    </body>
+</html>
